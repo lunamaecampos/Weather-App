@@ -1,13 +1,25 @@
 const request = require('request');
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
-const url = 'https://api.darksky.net/forecast/f4cf71bac233747057d8de890efa16f7/37.8267,-122.4233';
 
-geocode('Rancho Cucamonga', (error, data)=>{
-  console.log('Error', error);
-  console.log('Data', data);
-})
-forecast(-75.7088, 44.1545, (error, data) => {
-  console.log('Error', error)
-  console.log('Data', data)
-})
+const address = process.argv[2]
+
+if(!address){
+  console.log('Please Provide an Address');
+} else {
+  geocode(address, (error, {latitude, longitude, location})=>{
+    if(error){
+      return console.log(error);
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if(error){
+        return console.log(eror);
+      }
+
+      console.log(location);
+      console.log(forecastData);
+    })
+
+  })
+}
